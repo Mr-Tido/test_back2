@@ -173,3 +173,32 @@ app.post('/api/auth/register', async (req, res) => {
         res.status(500).json({ error: error.message })
     }
 })
+
+
+app.get('/api/item', async (req, res) => {
+    const { queryName, proizv } = req.query;
+
+    try {
+        if (queryName === 'proizv_filter') {
+            const selected = proizv ? proizv.split(',') : [];
+
+            if (selected.length === 0) {
+                const allItems = await pool.query('SELECT * FROM item ORDER BY id');
+                return res.json(allItems.rows);
+            }
+
+            const filteredItems = await pool.query(
+                'SELECT * FROM item WHERE proizv = ANY($1::text[]) ORDER BY id',
+                [selected]
+            );
+
+            return res.json(filteredItems.rows);
+        }
+
+        const allItems = await pool.query('SELECT * FROM item ORDER BY id');
+        res.json(allItems.rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err.message });
+    }
+});

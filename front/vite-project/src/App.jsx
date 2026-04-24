@@ -1,7 +1,7 @@
 import { useState } from "react"
 import {BrowserRouter, Route, Routes,Navigate} from "react-router-dom"
 import  ProtectedRoute  from "./ProtectedRoute/ProtectedRoute"
-import Page2 from "./page 2 /page2.jsx"
+import Page2 from "../src/page 2_/page2.jsx"
 import Page1 from "./Page1/Page1.jsx"
 export default function App() {
   const [token, setToken]= useState(localStorage.getItem('token'))

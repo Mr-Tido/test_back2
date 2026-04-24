@@ -66,11 +66,11 @@ export default function Page1() {
         setMessage('Выход выполнен');
     };
     
-useEffect(() => {
-  fetch('http://localhost:3000/api/main')
-  .then(res => res.json())
-  .then(data => setData(data))
-}, [])
+// useEffect(() => {
+//   fetch('http://localhost:3000/api/main')
+//   .then(res => res.json())
+//   .then(data => setData(data))
+// }, [])
 
 
     const onDelete = async (itemId) => {
@@ -120,8 +120,36 @@ const handleSubmit = async (e) => {
     
   };
 
+    const [proizv, setProizv] = useState({
+        Volvo: false,
+        Audi: false,
+        BMW: false,
+    });
 
-  return (
+    const handleCheckboxChange = (e) => {
+        const { name, checked } = e.target;
+        setProizv(prev => ({ ...prev, [name]: checked }));
+    };
+
+
+
+    useEffect(() => {
+        const selected = Object.keys(proizv).filter(key => proizv[key]);
+
+        const params = new URLSearchParams();
+        params.append('queryName', 'proizv_filter');
+        if (selected.length > 0) {
+            params.append('proizv', selected.join(','));
+        }
+
+        axios.get(`http://localhost:3000/api/item?${params.toString()}`)
+            .then(res => setData(res.data))
+            .catch(console.error);
+    }, [proizv]);
+
+
+
+    return (
     <>
 
     <div className="App">
@@ -200,6 +228,29 @@ const handleSubmit = async (e) => {
                 </form>
             </div>
         </div>
+
+        <label>
+            <input type="checkbox" name="Volvo" checked={proizv.Volvo} onChange={handleCheckboxChange} />
+            Volvo
+        </label>
+
+        <label>
+            <input type="checkbox" name="Audi" checked={proizv.Audi} onChange={handleCheckboxChange} />
+            Audi
+        </label>
+
+        <label>
+            <input type="checkbox" name="BMW" checked={proizv.BMW} onChange={handleCheckboxChange} />
+            BMW
+        </label>
+
+        <ul>
+            {data.map(item => (
+                <li key={item.id}>
+                    {item.name} — {item.proizv}
+                </li>
+            ))}
+        </ul>
     </>
   )
 }
