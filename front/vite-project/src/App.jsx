@@ -9,7 +9,10 @@ export default function App() {
   return (
      <BrowserRouter>
             <Routes>
-                <Route index element={<Page1/>} />
+                <Route
+                  index
+                  element={<Page1 onLogin={setToken} onLogout={() => setToken(null)} />}
+                />
                   
                   <Route element = {<ProtectedRoute isAuth={isAuth}/>}>
                     <Route path="/Page2" element = {<Page2/>}/>
@@ -20,6 +23,5 @@ export default function App() {
       </BrowserRouter>
   )
 }
-
 
 
