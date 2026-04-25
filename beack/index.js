@@ -21,7 +21,11 @@ const pool = new Pool({
     port: process.env.DB_PORT,
 })
 
-const JWT_SECRET = process.env.DB_SECRET = 'supersecretkey123'
+const JWT_SECRET = process.env.JWT_SECRET || process.env.DB_SECRET
+if (!JWT_SECRET) {
+    throw new Error('JWT_SECRET is required')
+}
+
 const PORT = 3000
 
 const authenticateToken = (req, res, next) => {
@@ -79,10 +83,11 @@ app.delete('/api/delete/:id', authenticateToken, authorizeRoles('admin'), async 
 
 app.post('/api/create', authenticateToken, authorizeRoles('admin'), async (req, res) => {
     try {
-        const { title, price, old_price } = req.body
+        const { title, price, old_price, oldPrice } = req.body
+        const normalizedOldPrice = old_price ?? oldPrice
         const result = await pool.query(
             'INSERT INTO catalog_items (title, price, old_price) VALUES ($1, $2, $3) RETURNING *',
-            [title, price, old_price]
+            [title, price, normalizedOldPrice]
         )
         res.json(result.rows[0])
     } catch (error) {

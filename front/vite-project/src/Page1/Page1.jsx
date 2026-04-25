@@ -1,11 +1,10 @@
 import { useState,useEffect } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
-export default function Page1() {
+export default function Page1({ onLogin, onLogout }) {
   const navigate = useNavigate()
   const [user, setUser] = useState(null);
-  const [token, setToken] = useState(localStorage.getItem('token'));
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState('')
   const [price, setPrice] = useState('')
   const [message,setMessage] = useState('')
@@ -19,19 +18,24 @@ export default function Page1() {
   const [loginPassword, setLoginPassword] = useState('');
 
     useEffect(() => {
-        axios.interceptors.request.use((config) => {
+        const interceptorId = axios.interceptors.request.use((config) => {
             const currentToken = localStorage.getItem('token');
             if (currentToken) {
                 config.headers.Authorization = `Bearer ${currentToken}`;
             }
             return config;
         });
+
+        return () => {
+            axios.interceptors.request.eject(interceptorId);
+        };
     }, []);
 
      const handleLogin = async (e) => {
         e.preventDefault();
         setMessage('');
         setLoading(true);
+        setIsError(false);
       
         try {
             const response = await axios.post('http://localhost:3000/api/auth/login', {
@@ -40,7 +44,7 @@ export default function Page1() {
             });
             
             const newToken = response.data.token;
-            setToken(newToken);
+            onLogin?.(newToken);
             setUser(response.data.user);
             localStorage.setItem('token', newToken);
 
@@ -53,17 +57,18 @@ export default function Page1() {
         } catch (error) {
             setMessage(error.response?.data?.error || 'Ошибка входа');
             setIsError(true);
-        } 
+        } finally {
+            setLoading(false);
+        }
     };
-``
 
      const handleLogout = () => {
         setUser(null);
-        setToken(null);
         setData([]);
         localStorage.removeItem('token');
         delete axios.defaults.headers.common['Authorization'];
         setMessage('Выход выполнен');
+        onLogout?.();
     };
     
 // useEffect(() => {
@@ -84,7 +89,11 @@ export default function Page1() {
 const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:3000/api/create', { title:String(title), price: Number(price),oldPrice:Number(oldPrice) });
+      await axios.post('http://localhost:3000/api/create', {
+        title: String(title),
+        price: Number(price),
+        old_price: Number(oldPrice)
+      });
       setMessage('Данные добавлены!');
       setTitle('');
       setPrice('');
@@ -105,10 +114,11 @@ const handleSubmit = async (e) => {
         age_user:userAge,
       });
 
-      setMessage(response.data.message);
+      setMessage(response.data.message || 'Регистрация успешна');
       setIsError(false);
       setUsername('');
       setPassword('');
+      setUserAge('');
 
     } catch (error) {
       const errorMsg = error.response?.data?.error || 'Ошибка регистрации';
@@ -224,7 +234,7 @@ const handleSubmit = async (e) => {
                         onChange={(e) => setLoginPassword(e.target.value)}
                         required
                     />
-                    <button type="submit" onClick={handleLogin} >Войти</button>
+                    <button type="submit" disabled={loading}>Войти</button>
                 </form>
             </div>
         </div>
@@ -254,6 +264,4 @@ const handleSubmit = async (e) => {
     </>
   )
 }
-
-
 
