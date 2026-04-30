@@ -181,27 +181,26 @@ app.post('/api/auth/register', async (req, res) => {
 
 
 app.get('/api/item', async (req, res) => {
-    const { queryName, proizv } = req.query;
+    const { proizv, minPrice, maxPrice } = req.query;
 
     try {
-        if (queryName === 'proizv_filter') {
-            const selected = proizv ? proizv.split(',') : [];
+        const selected = proizv ? proizv.split(',') : [];
+        const min = minPrice !== undefined ? Number(minPrice) : 0;
+        const max = maxPrice !== undefined ? Number(maxPrice) : 1000000;
 
-            if (selected.length === 0) {
-                const allItems = await pool.query('SELECT * FROM item ORDER BY id');
-                return res.json(allItems.rows);
-            }
+        let query = 'SELECT * FROM item WHERE price >= $1 AND price <= $2';
+        const values = [min, max];
 
-            const filteredItems = await pool.query(
-                'SELECT * FROM item WHERE proizv = ANY($1::text[]) ORDER BY id',
-                [selected]
-            );
-
-            return res.json(filteredItems.rows);
+        if (selected.length > 0) {
+            query += ' AND proizv = ANY($3::text[])';
+            values.push(selected);
         }
 
-        const allItems = await pool.query('SELECT * FROM item ORDER BY id');
-        res.json(allItems.rows);
+        query += ' ORDER BY id';
+
+        const result = await pool.query(query, values);
+        res.json(result.rows);
+
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: err.message });

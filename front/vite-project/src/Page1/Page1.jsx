@@ -1,6 +1,7 @@
 import { useState,useEffect } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
+import "../Page1/Page1.scss"
 export default function Page1({ onLogin, onLogout }) {
   const navigate = useNavigate()
   const [user, setUser] = useState(null);
@@ -16,8 +17,11 @@ export default function Page1({ onLogin, onLogout }) {
   const [isError, setIsError] = useState(false);
   const [loginUsername, setLoginUsername] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
-  const [selectedProizv, setSelectedProizv] = useState('')
+  const [selectedProizv, setSelectedProizv] = useState([])
     const [appliedProizv, setAppliedProizv] = useState([]);
+    const [priceRange, setPriceRange] = useState([0, 1000000]);
+    const [appliedPrice, setAppliedPrice] = useState([0, 1000000]);
+    const MAX_PRICE = 1000000;
 
     useEffect(() => {
         const interceptorId = axios.interceptors.request.use((config) => {
@@ -38,13 +42,13 @@ export default function Page1({ onLogin, onLogout }) {
         setMessage('');
         setLoading(true);
         setIsError(false);
-      
+
         try {
             const response = await axios.post('http://localhost:3000/api/auth/login', {
                 name_user: loginUsername,
                 password: loginPassword,
             });
-            
+
             const newToken = response.data.token;
             onLogin?.(newToken);
             setUser(response.data.user);
@@ -55,7 +59,7 @@ export default function Page1({ onLogin, onLogout }) {
             setLoginUsername('');
             setLoginPassword('');
             navigate('/Page2')
-        
+
         } catch (error) {
             setMessage(error.response?.data?.error || 'Ошибка входа');
             setIsError(true);
@@ -72,7 +76,7 @@ export default function Page1({ onLogin, onLogout }) {
         setMessage('Выход выполнен');
         onLogout?.();
     };
-    
+
 // useEffect(() => {
 //   fetch('http://localhost:3000/api/main')
 //   .then(res => res.json())
@@ -129,7 +133,7 @@ const handleSubmit = async (e) => {
     } finally {
       setLoading(false);
     }
-    
+
   };
 
     const [proizv, setProizv] = useState({
@@ -161,26 +165,32 @@ const handleSubmit = async (e) => {
 
 
 
-    const handleApply = () => {
-        setAppliedProizv(selectedProizv);
-    };
     const handleSelectChange = (e) => {
         const values = Array.from(e.target.selectedOptions, opt => opt.value);
-        setSelectedProizv(values);
+        if (values.includes('all')) {
+            setSelectedProizv(['all']);  // визуально выделяем "Все"
+        } else {
+            setSelectedProizv(values);
+        }
     };
 
+    const handleApply = () => {
+        const filtered = selectedProizv.filter(v => v !== 'all');
+        setAppliedProizv(filtered);  // если выбрано "Все" — передаём пустой массив
+        setAppliedPrice(priceRange);
+    };
     useEffect(() => {
         const params = new URLSearchParams();
-        params.append('queryName', 'proizv_filter');
         if (appliedProizv.length > 0) {
             params.append('proizv', appliedProizv.join(','));
         }
+        params.append('minPrice', appliedPrice[0]);
+        params.append('maxPrice', appliedPrice[1]);
 
         axios.get(`http://localhost:3000/api/item?${params.toString()}`)
             .then(res => setData(res.data))
             .catch(console.error);
-    }, [appliedProizv]);
-
+    }, [appliedProizv, appliedPrice]);
 
 
     return (
@@ -223,13 +233,13 @@ const handleSubmit = async (e) => {
 
 
     <form onSubmit={handleSubmit}>
-      <input type="text" placeholder="Название" value={title} 
+      <input type="text" placeholder="Название" value={title}
       onChange={(e) => setTitle(e.target.value)} required/>
 
-      <input type="number" placeholder="Цена" value={price} 
+      <input type="number" placeholder="Цена" value={price}
       onChange={(e) => setPrice(e.target.value)} required/>
-      
-      <input type="number" placeholder='Старая цена' value={oldPrice} 
+
+      <input type="number" placeholder='Старая цена' value={oldPrice}
       onChange={(e) => setOldPrice(e.target.value)} required />
 
       <button type="submit">Добавить</button>
@@ -279,11 +289,41 @@ const handleSubmit = async (e) => {
         </label>
 
         <select value={selectedProizv} onChange={handleSelectChange}>
+            <option value="All">All</option>
             <option value="Volvo">Volvo</option>
             <option value="Audi">Audi</option>
             <option value="BMW">BMW</option>
         </select>
         <button onClick={handleApply}>Применить фильтр</button>
+
+        <div style={{ position: 'relative', height: '40px', width: '300px' }}>
+            <input
+                type="range"
+                min={0}
+                max={MAX_PRICE}
+                value={priceRange[0]}
+                onChange={(e) => {
+                    const val = Math.min(Number(e.target.value), priceRange[1] - 1);
+                    setPriceRange([val, priceRange[1]]);
+                }}
+                style={{ position: 'absolute', width: '100%', pointerEvents: 'none', appearance: 'none', background: 'transparent' }}
+            />
+            <input
+                type="range"
+                min={0}
+                max={MAX_PRICE}
+                value={priceRange[1]}
+                onChange={(e) => {
+                    const val = Math.max(Number(e.target.value), priceRange[0] + 1);
+                    setPriceRange([priceRange[0], val]);
+                }}
+                style={{ position: 'absolute', width: '100%', pointerEvents: 'none', appearance: 'none', background: 'transparent' }}
+            />
+        </div>
+        <p>от {priceRange[0]} до {priceRange[1]} ₽</p>
+
+
+
         <ul>
             {data.map(item => (
                 <li key={item.id}>
