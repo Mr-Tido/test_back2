@@ -16,6 +16,8 @@ export default function Page1({ onLogin, onLogout }) {
   const [isError, setIsError] = useState(false);
   const [loginUsername, setLoginUsername] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
+  const [selectedProizv, setSelectedProizv] = useState('')
+    const [appliedProizv, setAppliedProizv] = useState([]);
 
     useEffect(() => {
         const interceptorId = axios.interceptors.request.use((config) => {
@@ -159,6 +161,28 @@ const handleSubmit = async (e) => {
 
 
 
+    const handleApply = () => {
+        setAppliedProizv(selectedProizv);
+    };
+    const handleSelectChange = (e) => {
+        const values = Array.from(e.target.selectedOptions, opt => opt.value);
+        setSelectedProizv(values);
+    };
+
+    useEffect(() => {
+        const params = new URLSearchParams();
+        params.append('queryName', 'proizv_filter');
+        if (appliedProizv.length > 0) {
+            params.append('proizv', appliedProizv.join(','));
+        }
+
+        axios.get(`http://localhost:3000/api/item?${params.toString()}`)
+            .then(res => setData(res.data))
+            .catch(console.error);
+    }, [appliedProizv]);
+
+
+
     return (
     <>
 
@@ -254,6 +278,12 @@ const handleSubmit = async (e) => {
             BMW
         </label>
 
+        <select value={selectedProizv} onChange={handleSelectChange}>
+            <option value="Volvo">Volvo</option>
+            <option value="Audi">Audi</option>
+            <option value="BMW">BMW</option>
+        </select>
+        <button onClick={handleApply}>Применить фильтр</button>
         <ul>
             {data.map(item => (
                 <li key={item.id}>
@@ -261,6 +291,8 @@ const handleSubmit = async (e) => {
                 </li>
             ))}
         </ul>
+
+
     </>
   )
 }
