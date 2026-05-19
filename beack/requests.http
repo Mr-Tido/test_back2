@@ -1,0 +1,78 @@
+@api = http://localhost:3001/api
+@id = paste-character-id-here
+
+### Health
+GET {{api}}/health
+
+### Получить всех персонажей
+GET {{api}}/characters
+
+### Поиск по имени, расе или классу
+GET {{api}}/characters?search=Хэйян
+
+### Получить персонажа по id
+GET {{api}}/characters/{{id}}
+
+### Создать персонажа
+POST {{api}}/characters
+Content-Type: application/json
+
+{
+  "name": "Тестовый герой",
+  "system": "D&D 5.5e",
+  "class": "Воин",
+  "level": 1,
+  "race": "Человек",
+  "background": "Солдат",
+  "alignment": "Нейтральный",
+  "abilityScores": {
+    "strength": { "score": 16, "modifier": 3 },
+    "dexterity": { "score": 12, "modifier": 1 },
+    "constitution": { "score": 14, "modifier": 2 }
+  },
+  "combat": {
+    "armorClass": 16,
+    "initiative": 1,
+    "speed": "30 фт",
+    "hitPoints": { "max": 12, "current": 12, "temporary": 0 }
+  }
+}
+
+### Полностью заменить персонажа
+PUT {{api}}/characters/{{id}}
+Content-Type: application/json
+
+{
+  "name": "Тестовый герой",
+  "system": "D&D 5.5e",
+  "class": "Воин",
+  "level": 2,
+  "race": "Человек",
+  "background": "Солдат",
+  "alignment": "Нейтральный",
+  "abilityScores": {
+    "strength": { "score": 16, "modifier": 3 },
+    "dexterity": { "score": 12, "modifier": 1 },
+    "constitution": { "score": 14, "modifier": 2 }
+  },
+  "combat": {
+    "armorClass": 16,
+    "initiative": 1,
+    "speed": "30 фт",
+    "hitPoints": { "max": 18, "current": 18, "temporary": 0 }
+  }
+}
+
+### Частично изменить персонажа
+PATCH {{api}}/characters/{{id}}
+Content-Type: application/json
+
+{
+  "level": 2,
+  "combat": {
+    "hitPoints": { "current": 15 }
+  }
+}
+
+### Удалить персонажа
+DELETE {{api}}/characters/{{id}}

@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "db:migrate": "node scripts/migrate.js",
+    "db:seed": "node scripts/seed.js",
+    "db:setup": "npm run db:migrate && npm run db:seed",
+    "dev": "node index.js",
     "start": "node index.js"
   },
   "keywords": [],

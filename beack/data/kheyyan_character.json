@@ -1,0 +1,193 @@
+{
+  "name": "Хэйян Галанодель (Лунный Шёпот)",
+  "system": "D&D 5.5e",
+  "class": "Плут",
+  "level": 1,
+  "race": "Эльф",
+  "background": "Преступник",
+  "alignment": "Истинно нейтральный",
+  "experience": 0,
+  "gender": "Мужской",
+  "age": 406,
+  "height": "155 см",
+  "weight": "72 кг",
+  "size": "Средний",
+
+  "abilityScores": {
+    "strength":     { "score": 12, "modifier": 1 },
+    "dexterity":    { "score": 16, "modifier": 3 },
+    "constitution": { "score": 14, "modifier": 2 },
+    "intelligence": { "score": 15, "modifier": 2 },
+    "wisdom":       { "score": 10, "modifier": 0 },
+    "charisma":     { "score": 8,  "modifier": -1 }
+  },
+
+  "combat": {
+    "armorClass": 14,
+    "initiative": 3,
+    "speed": "30 фт",
+    "hitPoints": {
+      "max": 10,
+      "current": 10,
+      "temporary": 0
+    },
+    "hitDice": "1d8",
+    "proficiencyBonus": 2,
+    "inspiration": false
+  },
+
+  "savingThrows": {
+    "strength":     { "modifier": 1,  "proficient": false },
+    "dexterity":    { "modifier": 5,  "proficient": true  },
+    "constitution": { "modifier": 2,  "proficient": false },
+    "intelligence": { "modifier": 4,  "proficient": true  },
+    "wisdom":       { "modifier": 0,  "proficient": false },
+    "charisma":     { "modifier": -1, "proficient": false }
+  },
+
+  "skills": {
+    "acrobatics":     { "modifier": 3,  "proficient": false },
+    "animalHandling": { "modifier": 0,  "proficient": false },
+    "arcana":         { "modifier": 0,  "proficient": false },
+    "athletics":      { "modifier": 5,  "proficient": true  },
+    "deception":      { "modifier": 1,  "proficient": false },
+    "history":        { "modifier": 2,  "proficient": false },
+    "insight":        { "modifier": 4,  "proficient": true  },
+    "intimidation":   { "modifier": -1, "proficient": false },
+    "investigation":  { "modifier": 4,  "proficient": true  },
+    "medicine":       { "modifier": 0,  "proficient": false },
+    "nature":         { "modifier": 2,  "proficient": false },
+    "perception":     { "modifier": 2,  "proficient": false },
+    "performance":    { "modifier": -1, "proficient": false },
+    "persuasion":     { "modifier": -1, "proficient": false },
+    "religion":       { "modifier": 2,  "proficient": false },
+    "sleightOfHand":  { "modifier": 5,  "proficient": true  },
+    "stealth":        { "modifier": 5,  "proficient": true  },
+    "survival":       { "modifier": 0,  "proficient": false }
+  },
+
+  "passiveSenses": {
+    "passiveInsight":      14,
+    "passivePerception":   12,
+    "passiveInvestigation": 14
+  },
+
+  "weapons": [
+    {
+      "name": "Кинжал",
+      "type": "Простое рукопашное оружие",
+      "attackBonus": 3,
+      "damage": "1к4",
+      "damageType": "колющий",
+      "properties": "Лёгкое, метательное (дис. 20/60), фехтовальное"
+    },
+    {
+      "name": "Короткий лук",
+      "type": "Простое дальнобойное оружие",
+      "attackBonus": 3,
+      "damage": "1к6",
+      "damageType": "колющий",
+      "properties": "Боеприпасы (дис. 80/320), двуручное"
+    },
+    {
+      "name": "Короткий меч",
+      "type": "Воинское рукопашное оружие",
+      "attackBonus": 3,
+      "damage": "1к6",
+      "damageType": "колющий",
+      "properties": "Лёгкое, фехтовальное"
+    }
+  ],
+
+  "classFeatures": [
+    {
+      "name": "Компетентность",
+      "level": 1,
+      "description": "Компетентность для 2 навыков на выбор из тех, которыми вы владеете. Рекомендуется: Ловкость рук и Скрытность."
+    },
+    {
+      "name": "Скрытая атака",
+      "level": 1,
+      "description": "Один раз в ход +1к6 урона при атаке с преимуществом или при наличии союзника в 5 фут. от цели. Оружие должно быть дальнобойным или фехтовальным."
+    },
+    {
+      "name": "Воровской жаргон",
+      "level": 1,
+      "description": "Знаете Воровской жаргон и ещё один язык на выбор."
+    },
+    {
+      "name": "Оружейные приёмы",
+      "level": 1,
+      "description": "Приёмы для 2 типов оружия, которыми владеете (например, кинжалы и короткие луки). Можно менять после продолжительного отдыха."
+    }
+  ],
+
+  "racialFeatures": [
+    {
+      "name": "Наследие фей",
+      "description": "Преимущество на спасброски от состояния Очарованный."
+    },
+    {
+      "name": "Обострённые чувства",
+      "description": "Владение одним из навыков: Проницательность, Внимательность или Выживание."
+    },
+    {
+      "name": "Потусторонняя магия",
+      "description": "Знаете заговор Пляшущие огоньки. Заклинательная характеристика: Харизма."
+    },
+    {
+      "name": "Происхождение эльфа",
+      "description": "Тёмное зрение 120 фут. Заговор: Пляшущие огоньки. Ур. 3: Огонь фей. Ур. 5: Тьма. Использование без ячеек — 1 раз, восстанавливается после отдыха."
+    },
+    {
+      "name": "Транс",
+      "description": "Отдых занимает 4 часа. Не спите и не подвержены магическому усыплению."
+    },
+    {
+      "name": "Тёмное зрение",
+      "description": "Видите в темноте до 120 футов."
+    }
+  ],
+
+  "feats": [
+    {
+      "name": "Везунчик (черта происхождения)",
+      "description": "Очки удачи = бонусу мастерства. Трата 1 очка: преимущество на собственный бросок к20 OR помеха на атаку по вам. Восстанавливается после продолжительного отдыха."
+    }
+  ],
+
+  "languages": [
+    "Общий",
+    "Эльфийский",
+    "Драконий",
+    "Воровской жаргон",
+    "Дварфский"
+  ],
+
+  "proficiencies": {
+    "armor": ["Лёгкие доспехи"],
+    "weapons": ["Простое оружие", "Воинское оружие (фехтовальное или лёгкое)"],
+    "tools": ["Воровские инструменты"]
+  },
+
+  "equipment": [
+    { "name": "Кожаный доспех", "quantity": 1 },
+    { "name": "Кинжал", "quantity": 2 },
+    { "name": "Короткий меч", "quantity": 1 },
+    { "name": "Короткий лук", "quantity": 1 },
+    { "name": "Стрела", "quantity": 20 },
+    { "name": "Колчан", "quantity": 1 },
+    { "name": "Воровские инструменты", "quantity": 1 },
+    { "name": "Набор взломщика", "quantity": 1 },
+    { "name": "Лом", "quantity": 1 },
+    { "name": "Сумка", "quantity": 2 },
+    { "name": "Одежда путешественника", "quantity": 1 },
+    { "name": "Железный священный символ неизвестного божества", "quantity": 1 }
+  ],
+
+  "gold": 24,
+
+  "background_description": "Вы научились зарабатывать деньги в тёмных переулках, подрезая кошельки или грабя магазины. Возможно, вы были частью небольшой банды преступников, которые присматривали друг за другом. Или, может быть, вы были одиноким волком, защищающимся от местной гильдии воров и более старых и грозных преступников.",
+
+  "subtypeNote": "Тип Плута выбирается на 3 уровне"
+}
