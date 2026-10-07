@@ -1,9 +1,3 @@
-input[type='range']::-webkit-slider-thumb {
-  pointer-events: all;
-  cursor: pointer;
-  appearance: auto;
-}
-
 .faq {
   max-width: 880px;
   margin: 0 auto;
@@ -11,18 +5,18 @@ input[type='range']::-webkit-slider-thumb {
   font-family: "Poppins", sans-serif;
   color: #2b1a0a;
 }
- 
+
 .faq__title {
   margin: 0 0 24px;
   font-size: 28px;
 }
- 
+
 .faq__item {
   margin-bottom: 14px;
   background: #faf9f6;
   border-radius: 28px;
 }
- 
+
 .faq__question {
   display: flex;
   align-items: center;
@@ -38,8 +32,8 @@ input[type='range']::-webkit-slider-thumb {
   text-align: left;
   cursor: pointer;
 }
- 
 
+/* Значок «+», при открытии превращается в «×» */
 .faq__icon {
   display: grid;
   place-items: center;
@@ -50,25 +44,25 @@ input[type='range']::-webkit-slider-thumb {
   color: #f0902f;
   font-size: 22px;
 }
- 
+
 .faq__item--open .faq__icon {
   background: #f0902f;
   color: #fff;
   transform: rotate(45deg);
 }
 
+/* Ответ */
 .faq__answer {
   display: none;
 }
- 
+
 .faq__item--open .faq__answer {
   display: block;
 }
- 
+
 .faq__answer p {
   margin: 0;
   padding: 0 28px 22px;
   font-size: 14px;
   line-height: 1.8;
 }
- 
