@@ -3,3 +3,73 @@ input[type='range']::-webkit-slider-thumb {
   cursor: pointer;
   appearance: auto;
 }
+
+.faq {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: "Poppins", sans-serif;
+  color: #2b1a0a;
+}
+ 
+.faq__title {
+  margin: 0 0 24px;
+  font-size: 28px;
+}
+ 
+.faq__item {
+  margin-bottom: 14px;
+  background: #faf9f6;
+  border-radius: 28px;
+}
+ 
+.faq__question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  padding: 18px 20px 18px 28px;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+}
+ 
+/* Значок «+», при открытии превращается в «×» */
+.faq__icon {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #fff;
+  color: #f0902f;
+  font-size: 22px;
+}
+ 
+.faq__item--open .faq__icon {
+  background: #f0902f;
+  color: #fff;
+  transform: rotate(45deg);
+}
+ 
+/* Ответ */
+.faq__answer {
+  display: none;
+}
+ 
+.faq__item--open .faq__answer {
+  display: block;
+}
+ 
+.faq__answer p {
+  margin: 0;
+  padding: 0 28px 22px;
+  font-size: 14px;
+  line-height: 1.8;
+}
+ 
