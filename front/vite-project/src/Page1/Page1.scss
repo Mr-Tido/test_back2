@@ -39,7 +39,7 @@ input[type='range']::-webkit-slider-thumb {
   cursor: pointer;
 }
  
-/* Значок «+», при открытии превращается в «×» */
+
 .faq__icon {
   display: grid;
   place-items: center;
@@ -56,8 +56,7 @@ input[type='range']::-webkit-slider-thumb {
   color: #fff;
   transform: rotate(45deg);
 }
- 
-/* Ответ */
+
 .faq__answer {
   display: none;
 }
